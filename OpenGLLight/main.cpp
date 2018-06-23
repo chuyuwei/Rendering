@@ -163,6 +163,8 @@ int main()
 	}
 	glEnable(GL_DEPTH_TEST);
 
+	Shader ourshader("model_loading.vert","model_loading.frag");
+	Model ourModel("nanosuit/nanosuit.obj");
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -170,21 +172,27 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//模型变换
-		//glm::mat4 view;
-		//glm::mat4 projection;
-		//projection = glm::perspective(fov, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		//view = glm::lookAt(cameraPos, glm::vec3(0.0, 0.0, 0.0), cameraUp);
-		//ourshader.setMat4("projection", projection);
-		//ourshader.setMat4("view", view);
+		ourshader.use();
 
+		//模型变换
+		glm::mat4 view;
+		glm::mat4 projection;
+		projection = glm::perspective(fov, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		view = glm::lookAt(cameraPos, glm::vec3(0.0, 0.0, 0.0), cameraUp);
+		ourshader.setMat4("projection", projection);
+		ourshader.setMat4("view", view);
+
+
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(0.0, -1.75f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		ourshader.setMat4("model", model);
+		ourModel.Draw(ourshader);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();

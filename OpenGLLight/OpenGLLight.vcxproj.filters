@@ -52,13 +52,11 @@
     <None Include="cube.vert">
       <Filter>资源文件</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="container2.png">
+    <None Include="model_loading.frag">
       <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="container2_specular.png">
+    </None>
+    <None Include="model_loading.vert">
       <Filter>资源文件</Filter>
-    </Image>
+    </None>
   </ItemGroup>
 </Project>
