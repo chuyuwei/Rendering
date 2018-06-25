@@ -67,5 +67,11 @@
     <None Include="stencil_single_color.frag">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="blending.vert">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="blending.frag">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
