@@ -58,5 +58,14 @@
     <None Include="model_loading.vert">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="stencil_testing.vert">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="stencil_testing.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="stencil_single_color.frag">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

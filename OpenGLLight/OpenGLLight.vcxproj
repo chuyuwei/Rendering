@@ -155,6 +155,9 @@
     <None Include="light.vert" />
     <None Include="model_loading.frag" />
     <None Include="model_loading.vert" />
+    <None Include="stencil_single_color.frag" />
+    <None Include="stencil_testing.frag" />
+    <None Include="stencil_testing.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
