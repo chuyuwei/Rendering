@@ -40,37 +40,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="light.frag">
+    <None Include="frambuffers.vert">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="light.vert">
+    <None Include="frambuffers.frag">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="cube.frag">
+    <None Include="framebuffer_screen.vert">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="cube.vert">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="model_loading.frag">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="model_loading.vert">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="stencil_testing.vert">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="stencil_testing.frag">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="stencil_single_color.frag">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="blending.vert">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="blending.frag">
+    <None Include="frambuffers_screen.frag">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
