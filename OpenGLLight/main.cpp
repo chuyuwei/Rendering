@@ -20,7 +20,7 @@ float lastX = 800.0f / 2.0;
 float lastY = 600.0 / 2.0;
 
 // camera//
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 6.0f);
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
@@ -106,8 +106,9 @@ unsigned int loadTexture(char const* path)
 			format = GL_RGB;
 		else if (nrComponents == 4)
 			format = GL_RGBA;
+
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0,format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -119,9 +120,10 @@ unsigned int loadTexture(char const* path)
 	}
 	else
 	{
-		std::cout << "texture failed to load at path: " << path << std::endl;
+		std::cout << "Texture failed to load at path: " << path << std::endl;
 		stbi_image_free(data);
 	}
+
 	return textureID;
 }
 
@@ -137,23 +139,20 @@ unsigned int loadCubemap(vector<string> faces)
 		unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
 		if (data)
 		{
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNALED, data);
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 			stbi_image_free(data);
 		}
 		else
 		{
-			cout << "cubemap texture failede to load at path:" << faces[i] << endl;
+			std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
 			stbi_image_free(data);
 		}
 	}
-
-
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
 
 	return textureID;
 
@@ -199,8 +198,8 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 
-	Shader shader("cubemaps.vert","cubemaps.frag");
-	Shader skyboxShder("skybox.vert", "skybox.frag");
+	Shader shader("vertfrag/cubemaps.vert","vertfrag/cubemaps.frag");
+	Shader skyboxShder("vertfrag/skybox.vert", "vertfrag/skybox.frag");
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -293,7 +292,8 @@ int main()
 		1.0f, -1.0f, 1.0f
 	};
 
-	//cube VAO
+
+	// cube VAO
 	unsigned int cubeVAO, cubeVBO;
 	glGenVertexArrays(1, &cubeVAO);
 	glGenBuffers(1, &cubeVBO);
@@ -303,10 +303,9 @@ int main()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)sizeof(float));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glBindVertexArray(0);
-
-	//skybox VAO
+	// skybox VAO
 	unsigned int skyboxVAO, skyboxVBO;
 	glGenVertexArrays(1, &skyboxVAO);
 	glGenBuffers(1, &skyboxVBO);
@@ -315,7 +314,6 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glBindVertexArray(0);
 	
 	unsigned int cubeTexture = loadTexture("image/container.jpg");
 	
@@ -325,8 +323,8 @@ int main()
 		"image/skybox/left.jpg",
 		"image/skybox/top.jpg",
 		"image/skybox/bottom.jpg",
-		"image/skybox/front.jpg",
-		"image/skybox/back.jpg"
+		"image/skybox/back.jpg",
+		"image/skybox/front.jpg"
 	};
 
 	unsigned int cubemapTexture = loadCubemap(faces);
@@ -365,6 +363,7 @@ int main()
 		//最后绘制天空盒
 		glDepthFunc(GL_LEQUAL);
 		skyboxShder.use();
+		view = glm::mat4(glm::mat3(view));
 		skyboxShder.setMat4("view", view);
 		skyboxShder.setMat4("projection", projection);
 		//天空盒
