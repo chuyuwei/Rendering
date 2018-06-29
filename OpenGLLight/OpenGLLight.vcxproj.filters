@@ -43,16 +43,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\cubemaps.vert">
+    <None Include="vertfrag\advanced_glsl.vert">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\cubemaps.frag">
+    <None Include="vertfrag\red.frag">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\skybox.vert">
+    <None Include="vertfrag\green.frag">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\skybox.frag">
+    <None Include="vertfrag\blue.frag">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\yellow.frag">
       <Filter>vertfrag</Filter>
     </None>
   </ItemGroup>
