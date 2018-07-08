@@ -159,6 +159,9 @@ unsigned int loadCubemap(vector<string> faces)
 }
 int SCR_WIDTH = 800;
 int SCR_HEIGHT = 800;
+
+GLboolean blinn = true;
+
 int main()
 {
 	// glfw: initialize and configure
@@ -196,87 +199,39 @@ int main()
 	}
 	
 	glEnable(GL_DEPTH_TEST);
+	
+	Shader shader("vertfrag/advanced_lighting.vert","vertfrag/advanced_lighting.frag");
 
+	GLfloat planeVertices[] = {
+		// Positions          // Normals         // Texture Coords
+		8.0f, -0.5f, 8.0f, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
+		-8.0f, -0.5f, 8.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		-8.0f, -0.5f, -8.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f,
 
-	Shader shaderRed("vertfrag/advanced_glsl.vert","vertfrag/red.frag");
-	Shader shaderGreen("vertfrag/advanced_glsl.vert", "vertfrag/green.frag");
-	Shader shaderBlue("vertfrag/advanced_glsl.vert", "vertfrag/blue.frag");
-	Shader shaderYellow("vertfrag/advanced_glsl.vert", "vertfrag/yellow.frag");
-
-	// set up vertex data (and buffer(s)) and configure vertex attributes
-	// ------------------------------------------------------------------
-	float cubeVertices[] = {
-		// positions         
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, 0.5f, -0.5f,
-		0.5f, 0.5f, -0.5f,
-		-0.5f, 0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f, -0.5f, 0.5f,
-		0.5f, -0.5f, 0.5f,
-		0.5f, 0.5f, 0.5f,
-		0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f, 0.5f,
-		-0.5f, -0.5f, 0.5f,
-
-		-0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, 0.5f,
-		-0.5f, 0.5f, 0.5f,
-
-		0.5f, 0.5f, 0.5f,
-		0.5f, 0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, 0.5f,
-		0.5f, 0.5f, 0.5f,
-
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, 0.5f,
-		0.5f, -0.5f, 0.5f,
-		-0.5f, -0.5f, 0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f, 0.5f, -0.5f,
-		0.5f, 0.5f, -0.5f,
-		0.5f, 0.5f, 0.5f,
-		0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f, -0.5f,
+		8.0f, -0.5f, 8.0f, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
+		-8.0f, -0.5f, -8.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f,
+		8.0f, -0.5f, -8.0f, 0.0f, 1.0f, 0.0f, 5.0f, 5.0f
 	};
-
-	// cube VAO
-	unsigned int cubeVAO, cubeVBO;
-	glGenVertexArrays(1, &cubeVAO);
-	glGenBuffers(1, &cubeVBO);
-	glBindVertexArray(cubeVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
+	// Setup plane VAO
+	GLuint planeVAO, planeVBO;
+	glGenVertexArrays(1, &planeVAO);
+	glGenBuffers(1, &planeVBO);
+	glBindVertexArray(planeVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), &planeVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glBindVertexArray(0);
 
-	//配置unifrom缓冲
-	//首先得到id
-	unsigned int uniformBlockIndexRed = glGetUniformBlockIndex(shaderRed.ID, "Matrices");
-	unsigned int uniformBlockIndexGreen = glGetUniformBlockIndex(shaderGreen.ID, "Matrices");
-	unsigned int uniformBlockIndexBlue = glGetUniformBlockIndex(shaderBlue.ID, "Matrices");
-	unsigned int uniformBlockIndexYellow = glGetUniformBlockIndex(shaderYellow.ID, "Matrices");
-	//连接左边的点
-	glUniformBlockBinding(shaderRed.ID, uniformBlockIndexRed, 0);
-	glUniformBlockBinding(shaderGreen.ID, uniformBlockIndexGreen, 0);
-	glUniformBlockBinding(shaderBlue.ID, uniformBlockIndexBlue, 0);
-	glUniformBlockBinding(shaderYellow.ID, uniformBlockIndexYellow, 0);
-	//连接右边缓冲数据
-	unsigned int uboMatrices;
-	glGenBuffers(1, &uboMatrices);
-	glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
-	glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), NULL, GL_STATIC_DRAW);
-	glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboMatrices, 0, 2 * sizeof(glm::mat4));
+	// Light source
+	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+
+	// Load textures
+	GLuint floorTexture = loadTexture("resources/textures/wood.png");
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -285,52 +240,33 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		shader.use();
 		//模型变换
 		glm::mat4 view;
 		glm::mat4 projection;
 		projection = glm::perspective(fov, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		view = glm::lookAt(cameraPos, glm::vec3(0.0, 0.0, 0.0), cameraUp);
+		
+		shader.setMat4("view", view);
+		shader.setMat4("projection", projection);
 
-		glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
-		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		// Set light uniforms
+		shader.setVec3("lightPos",lightPos);
+		shader.setVec3("viewPos", cameraPos);
+		shader.setBool("blinn", blinn);
+		
+		// Floor
+		glBindVertexArray(planeVAO);
+		glBindTexture(GL_TEXTURE_2D, floorTexture);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
 
-		glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
-		glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-		glBindVertexArray(cubeVAO);
-		shaderRed.use();
-		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(-0.75f, 0.75, 0.0f));
-		shaderRed.setMat4("model", model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		// GREEN
-		shaderGreen.use();
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(0.75f, 0.75f, 0.0f)); // move top-right
-		shaderGreen.setMat4("model", model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		// YELLOW
-		shaderYellow.use();
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(-0.75f, -0.75f, 0.0f)); // move bottom-left
-		shaderYellow.setMat4("model", model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		// BLUE
-		shaderBlue.use();
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(0.75f, -0.75f, 0.0f)); // move bottom-right
-		shaderBlue.setMat4("model", model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//std::cout << (blinn ? "true" : "false") << std::endl;
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
-	glDeleteVertexArrays(1, &cubeVAO);
-	glDeleteBuffers(1, &cubeVBO);
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();

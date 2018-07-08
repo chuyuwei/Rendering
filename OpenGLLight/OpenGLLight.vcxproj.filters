@@ -43,19 +43,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\advanced_glsl.vert">
+    <None Include="vertfrag\advanced_lighting.frag">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\red.frag">
-      <Filter>vertfrag</Filter>
-    </None>
-    <None Include="vertfrag\green.frag">
-      <Filter>vertfrag</Filter>
-    </None>
-    <None Include="vertfrag\blue.frag">
-      <Filter>vertfrag</Filter>
-    </None>
-    <None Include="vertfrag\yellow.frag">
+    <None Include="vertfrag\advanced_lighting.vert">
       <Filter>vertfrag</Filter>
     </None>
   </ItemGroup>
