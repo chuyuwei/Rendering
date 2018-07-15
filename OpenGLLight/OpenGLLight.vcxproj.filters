@@ -43,10 +43,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\advanced_lighting.frag">
+    <None Include="vertfrag\debug_quad.vert">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\advanced_lighting.vert">
+    <None Include="vertfrag\debug_quad_depth.frag">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\shadow_mapping_depth.frag">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\shadow_mapping_depth.vert">
       <Filter>vertfrag</Filter>
     </None>
   </ItemGroup>
