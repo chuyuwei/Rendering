@@ -151,6 +151,8 @@
   <ItemGroup>
     <None Include="vertfrag\debug_quad.vert" />
     <None Include="vertfrag\debug_quad_depth.frag" />
+    <None Include="vertfrag\shadow_mapping.frag" />
+    <None Include="vertfrag\shadow_mapping.vert" />
     <None Include="vertfrag\shadow_mapping_depth.frag" />
     <None Include="vertfrag\shadow_mapping_depth.vert" />
   </ItemGroup>

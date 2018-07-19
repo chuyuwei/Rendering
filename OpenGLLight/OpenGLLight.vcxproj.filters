@@ -55,5 +55,11 @@
     <None Include="vertfrag\shadow_mapping_depth.vert">
       <Filter>vertfrag</Filter>
     </None>
+    <None Include="vertfrag\shadow_mapping.vert">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\shadow_mapping.frag">
+      <Filter>vertfrag</Filter>
+    </None>
   </ItemGroup>
 </Project>
