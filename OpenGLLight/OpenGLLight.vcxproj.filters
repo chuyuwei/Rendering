@@ -43,22 +43,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\debug_quad.vert">
+    <None Include="vertfrag\normal_mapping.vert">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\debug_quad_depth.frag">
-      <Filter>vertfrag</Filter>
-    </None>
-    <None Include="vertfrag\shadow_mapping_depth.frag">
-      <Filter>vertfrag</Filter>
-    </None>
-    <None Include="vertfrag\shadow_mapping_depth.vert">
-      <Filter>vertfrag</Filter>
-    </None>
-    <None Include="vertfrag\shadow_mapping.vert">
-      <Filter>vertfrag</Filter>
-    </None>
-    <None Include="vertfrag\shadow_mapping.frag">
+    <None Include="vertfrag\normal_mapping.frag">
       <Filter>vertfrag</Filter>
     </None>
   </ItemGroup>
