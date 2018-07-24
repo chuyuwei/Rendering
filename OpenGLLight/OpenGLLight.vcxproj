@@ -149,8 +149,8 @@
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\normal_mapping.frag" />
-    <None Include="vertfrag\normal_mapping.vert" />
+    <None Include="vertfrag\parallax_mapping.frag" />
+    <None Include="vertfrag\parallax_mapping.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

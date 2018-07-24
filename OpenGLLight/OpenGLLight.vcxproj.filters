@@ -43,10 +43,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\normal_mapping.vert">
+    <None Include="vertfrag\parallax_mapping.vert">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\normal_mapping.frag">
+    <None Include="vertfrag\parallax_mapping.frag">
       <Filter>vertfrag</Filter>
     </None>
   </ItemGroup>

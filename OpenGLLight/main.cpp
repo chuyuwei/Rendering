@@ -18,6 +18,7 @@ float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 re
 float pitch = 0.0f;
 float lastX = 800.0f / 2.0;
 float lastY = 600.0 / 2.0;
+float heightScale = 0.1;
 
 // camera//
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -295,18 +296,19 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	
 	
-	Shader shader("vertfrag/normal_mapping.vert", "vertfrag/normal_mapping.frag");
+	Shader shader("vertfrag/parallax_mapping.vert", "vertfrag/parallax_mapping.frag");
 
 	// load textures
 	// -------------
-	unsigned int diffuseMap = loadTexture("resources/textures/brickwall.jpg");
-	unsigned int normalMap = loadTexture("resources/textures/brickwall_normal.jpg");
-
+	unsigned int diffuseMap = loadTexture("resources/textures/bricks2.jpg");
+	unsigned int normalMap = loadTexture("resources/textures/bricks2_normal.jpg");
+	unsigned int heightMap = loadTexture("resources/textures/bricks2_disp.jpg");
 	// shader configuration
 	// --------------------
 	shader.use();
 	shader.setInt("diffuseMap", 0);
 	shader.setInt("normalMap", 1);
+	shader.setInt("depthMap", 2);
 
 	// lighting info
 	// -------------
@@ -332,6 +334,7 @@ int main()
 		shader.setMat4("model", model);
 		shader.setVec3("viewPos", cameraPos);
 		shader.setVec3("lightPos", lightPos);
+		shader.setFloat("heightScale", heightScale); // adjust with Q and E keys
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuseMap);
 		glActiveTexture(GL_TEXTURE1);
@@ -362,6 +365,20 @@ void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		if (heightScale > 0.0f)
+			heightScale -= 0.0005f;
+		else
+			heightScale = 0.0f;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		if (heightScale < 1.0f)
+			heightScale += 0.0005f;
+		else
+			heightScale = 1.0f;
+	}
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
