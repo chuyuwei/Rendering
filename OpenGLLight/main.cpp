@@ -21,7 +21,7 @@ float lastY = 600.0 / 2.0;
 float heightScale = 0.1;
 
 // camera//
-glm::vec3 cameraPos = glm::vec3(6.0f, 0.0f, 3.0f);
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 10.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
@@ -394,10 +394,21 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	
 	
-	Shader shader("vertfrag/1.1.pbr.vert","vertfrag/1.1.pbr.frag");
+	Shader shader("vertfrag/1.2.pbr.vert","vertfrag/1.2.pbr.frag");
 	shader.use();
-	shader.setVec3("albedo", 0.5f, 0.0f, 0.0f);
-	shader.setFloat("ao", 1.0);
+	shader.setInt("albedoMap", 0);
+	shader.setInt("normalMap", 1);
+	shader.setInt("metallicMap", 2);
+	shader.setInt("roughnessMap", 3);
+	shader.setInt("aoMap", 4);
+
+	// load PBR material textures
+	// --------------------------
+	unsigned int albedo = loadTexture("resources/textures/pbr/rusted_iron/albedo.png");
+	unsigned int normal = loadTexture("resources/textures/pbr/rusted_iron/normal.png");
+	unsigned int metallic = loadTexture("resources/textures/pbr/rusted_iron/metallic.png");
+	unsigned int roughness = loadTexture("resources/textures/pbr/rusted_iron/roughness.png");
+	unsigned int ao = loadTexture("resources/textures/pbr/rusted_iron/ao.png");
 
 	//…Ë÷√µ∆π‚Œª÷√
 	// lights
@@ -436,6 +447,18 @@ int main()
 		shader.setMat4("view", view);
 		shader.setVec3("camPos", cameraPos);
 		
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, albedo);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, normal);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, metallic);
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, roughness);
+		glActiveTexture(GL_TEXTURE4);
+		glBindTexture(GL_TEXTURE_2D, ao);
+
 		// render rows*column number of spheres with varying metallic/roughness values scaled by rows and columns respectively
 		glm::mat4 model;
 		for (int row = 0; row < nrRows; ++row)
