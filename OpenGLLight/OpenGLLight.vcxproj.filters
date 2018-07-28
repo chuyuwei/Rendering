@@ -43,16 +43,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\6.hdr.frag">
+    <None Include="vertfrag\7.bloom.vert">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\6.hdr.vert">
+    <None Include="vertfrag\7.bloom.frag">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\6.lighting.frag">
+    <None Include="vertfrag\7.light_box.frag">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\6.lighting.vert">
+    <None Include="vertfrag\7.blur.vert">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\7.blur.frag">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\7.bloom_final.vert">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\7.bloom_final.frag">
       <Filter>vertfrag</Filter>
     </None>
   </ItemGroup>
