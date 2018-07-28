@@ -43,10 +43,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertfrag\1.2.pbr.vert">
+    <None Include="vertfrag\6.hdr.frag">
       <Filter>vertfrag</Filter>
     </None>
-    <None Include="vertfrag\1.2.pbr.frag">
+    <None Include="vertfrag\6.hdr.vert">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\6.lighting.frag">
+      <Filter>vertfrag</Filter>
+    </None>
+    <None Include="vertfrag\6.lighting.vert">
       <Filter>vertfrag</Filter>
     </None>
   </ItemGroup>
